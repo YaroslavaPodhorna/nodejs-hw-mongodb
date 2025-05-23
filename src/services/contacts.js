@@ -1,8 +1,30 @@
 import e from 'express';
 import { Contact } from '../db/models/contact.js';
-export const getAllContacts = async () => {
-  const contacts = await Contact.find();
-  return contacts;
+import { calculatePaginationData } from '../utils/calculatePaginationData.js';
+import { SORT_ORDER } from '../constants/index.js';
+
+export const getAllContacts = async ({
+  page = 1,
+  perPage = 10,
+  sortOrder = SORT_ORDER.ASC,
+  sortBy = '_id',
+  filter = {},
+}) => {
+  const skip = (page - 1) * perPage;
+  const limit = perPage;
+  const [contacts, total] = await Promise.all([
+    Contact.find(filter)
+      .skip(skip)
+      .limit(perPage)
+      .sort({ [sortBy]: sortOrder }),
+    Contact.countDocuments(filter),
+  ]);
+
+  const paginationData = calculatePaginationData(total, perPage, page);
+  return {
+    data: contacts,
+    ...paginationData,
+  };
 };
 export const getContactById = async (contactId) => {
   const contact = await Contact.findById(contactId);

@@ -12,9 +12,3 @@ export const errorHandler = (err, req, res, next) => {
     error: err.message,
   });
 };
-// {
-// 		status: 500,
-// 		message: "Something went wrong",
-// 		data:
-// 		// конкретне повідомлення про помилку, отримане з об'єкта помилки
-// }
