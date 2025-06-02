@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 const sessionSchema = new Schema(
   {
     userId: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'UserCollection',
       required: true,
     },
     accessToken: { type: String, required: true },

@@ -1,4 +1,3 @@
-import e from 'express';
 import { ONE_DAY } from '../constants/index.js';
 import { refreshUsersSession } from '../services/auth.js';
 import { registerUser } from '../services/auth.js';
