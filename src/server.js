@@ -3,9 +3,10 @@ import express from 'express';
 import cors from 'cors';
 import pino from 'pino-http';
 import { getEnvVar } from './utils/getEnvVar.js';
-// import { getAllContacts, getContactById } from './services/contacts.js';
+
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import { UPLOAD_DIR } from './constants/index.js';
 import router from './routers/index.js';
 const PORT = Number(getEnvVar('PORT', '3000'));
 export const startServer = () => {
@@ -28,6 +29,7 @@ export function setupServer() {
       },
     }),
   );
+  app.use('/uploads', express.static(UPLOAD_DIR));
 
   app.get('/', (req, res) => {
     res.json({ message: 'Hello, World!' });
@@ -40,4 +42,3 @@ export function setupServer() {
     console.log(`Server is running on port ${PORT}`);
   });
 }
-//

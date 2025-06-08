@@ -28,14 +28,15 @@ const contactSchema = new mongoose.Schema(
       ref: 'UserCollection',
       required: true,
     },
+    photo: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    versionKey: false,
+  },
 );
 export const Contact = mongoose.model('Contact', contactSchema);
-// name - string, required
-// phoneNumber - string, required
-// email - string
-// isFavourite - boolean, default false
-// contactType - string, enum(’work’, ‘home’, ‘personal’), required, default ‘personal’
-
-// Для автоматичного створення полів createdAt та updatedAt, можна використати параметр timestamps: true при створенні моделі. Це додає до об'єкту два поля: createdAt (дата створення) та updatedAt (дата оновлення), і їх не потрібно додавати вручну.
