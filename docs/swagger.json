@@ -12,6 +12,9 @@
   "servers": [
     {
       "url": "http://127.0.0.1:3000"
+    },
+    {
+      "url": "http://127.0.0.1:8080"
     }
   ],
   "tags": [
@@ -23,13 +26,12 @@
   "paths": {
     "/contacts": {
       "get": {
-        "/contacts": null,
         "tags": [
           "Contacts"
         ],
         "summary": "Get all contacts",
         "operationId": "getAllContacts",
-        "description": "Retrieve all contacts belonging to the user. You can filter using query parameters.",
+        "description": "Get all contacts belonging to the user.",
         "security": [
           {
             "bearerAuth": []
@@ -37,17 +39,62 @@
         ],
         "parameters": [
           {
-            "name": "isFavourite",
             "in": "query",
-            "required": false,
+            "name": "page",
             "schema": {
-              "type": "boolean"
-            }
+              "type": "integer",
+              "default": 1
+            },
+            "description": "Page number for pagination"
           },
           {
-            "name": "contactType",
             "in": "query",
-            "required": false,
+            "name": "perPage",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            },
+            "description": "Number of items per page"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "schema": {
+              "type": "string",
+              "default": "_id"
+            },
+            "description": "Field to sort by (e.g. name, email, phoneNumber)"
+          },
+          {
+            "in": "query",
+            "name": "sortOrder",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "asc"
+            },
+            "description": "Sorting order"
+          },
+          {
+            "in": "query",
+            "name": "searchBy",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "name",
+                "email",
+                "phoneNumber"
+              ],
+              "default": "name"
+            },
+            "description": "Field to search by"
+          },
+          {
+            "in": "query",
+            "name": "contactType",
             "schema": {
               "type": "string",
               "enum": [
@@ -55,18 +102,28 @@
                 "home",
                 "personal"
               ]
-            }
+            },
+            "description": "Filter by contact type"
+          },
+          {
+            "in": "query",
+            "name": "isFavourite",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Filter by favourite contacts"
           }
         ],
         "responses": {
           "200": {
-            "description": "List of contacts",
+            "description": "Successfully found contacts",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "required": [
                     "status",
+                    "message",
                     "data"
                   ],
                   "properties": {
@@ -74,10 +131,52 @@
                       "type": "integer",
                       "example": 200
                     },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found contacts!"
+                    },
                     "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/contact"
+                      "type": "object",
+                      "required": [
+                        "data",
+                        "page",
+                        "perPage",
+                        "totalItems",
+                        "totalPages",
+                        "hasNextPage",
+                        "hasPreviousPage"
+                      ],
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/contact"
+                          }
+                        },
+                        "page": {
+                          "type": "number",
+                          "example": 2
+                        },
+                        "perPage": {
+                          "type": "number",
+                          "example": 6
+                        },
+                        "totalItems": {
+                          "type": "number",
+                          "example": 6
+                        },
+                        "totalPages": {
+                          "type": "number",
+                          "example": 10
+                        },
+                        "hasNextPage": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "hasPreviousPage": {
+                          "type": "boolean",
+                          "example": false
+                        }
                       }
                     }
                   }
@@ -408,13 +507,13 @@
           "email": {
             "type": "string",
             "format": "email",
-            "description": "Contact email address",
             "example": "john.doe@example.com"
           },
           "isFavourite": {
             "type": "boolean",
-            "example": false,
-            "default": false
+            "description": "Indicates whether the contact is marked as favourite",
+            "default": false,
+            "example": true
           },
           "contactType": {
             "type": "string",

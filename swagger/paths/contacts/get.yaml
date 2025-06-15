@@ -1,0 +1,115 @@
+tags:
+  - Contacts
+summary: Get all contacts
+operationId: getAllContacts
+description: Get all contacts belonging to the user.
+security:
+  - bearerAuth: []
+parameters:
+  - in: query
+    name: page
+    schema:
+      type: integer
+      default: 1
+    description: Page number for pagination
+
+  - in: query
+    name: perPage
+    schema:
+      type: integer
+      default: 10
+    description: Number of items per page
+
+  - in: query
+    name: sortBy
+    schema:
+      type: string
+      default: _id
+    description: Field to sort by (e.g. name, email, phoneNumber)
+
+  - in: query
+    name: sortOrder
+    schema:
+      type: string
+      enum: [asc, desc]
+      default: asc
+    description: Sorting order
+
+  - in: query
+    name: searchBy
+    schema:
+      type: string
+      enum: [name, email, phoneNumber]
+      default: name
+    description: Field to search by
+
+  - in: query
+    name: contactType
+    schema:
+      type: string
+      enum: [work, home, personal]
+    description: Filter by contact type
+
+  - in: query
+    name: isFavourite
+    schema:
+      type: boolean
+    description: Filter by favourite contacts
+
+responses:
+  '200':
+    description: Successfully found contacts
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully found contacts!
+            data:
+              type: object
+              required:
+                - data
+                - page
+                - perPage
+                - totalItems
+                - totalPages
+                - hasNextPage
+                - hasPreviousPage
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../../components/schemas/contact.yaml'
+                page:
+                  type: number
+                  example: 2
+                perPage:
+                  type: number
+                  example: 6
+                totalItems:
+                  type: number
+                  example: 6
+                totalPages:
+                  type: number
+                  example: 10
+                hasNextPage:
+                  type: boolean
+                  example: true
+                hasPreviousPage:
+                  type: boolean
+                  example: false
+
+  '401':
+    $ref: ../../components/responses/401.yaml
+
+  '500':
+    $ref: ../../components/responses/500.yaml
