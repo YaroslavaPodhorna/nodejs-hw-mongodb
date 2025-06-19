@@ -35,20 +35,18 @@ parameters:
       default: asc
     description: Sorting order
 
-  - in: query
-    name: searchBy
-    schema:
-      type: string
-      enum: [name, email, phoneNumber]
-      default: name
-    description: Field to search by
+  # - in: query
+  #   name: search
+  #   schema:
+  #     type: string
+  #   description: Search keyword for name, email, or phone number
 
-  - in: query
-    name: contactType
-    schema:
-      type: string
-      enum: [work, home, personal]
-    description: Filter by contact type
+  # - in: query
+  #   name: contactType
+  #   schema:
+  #     type: string
+  #     enum: [work, home, personal]
+  #   description: Filter by contact type
 
   - in: query
     name: isFavourite

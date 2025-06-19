@@ -11,12 +11,33 @@ parameters:
     required: true
     schema:
       type: string
-requestBody:
-  required: true
-  content:
-    application/json:
-      schema:
-        $ref: '../../../components/schemas/contact.yaml'
+'requestBody':
+  {
+    'required': true,
+    'content':
+      {
+        'multipart/form-data':
+          {
+            'schema':
+              {
+                'type': 'object',
+                'properties':
+                  {
+                    'name': { 'type': 'string' },
+                    'phoneNumber': { 'type': 'string' },
+                    'email': { 'type': 'string', 'format': 'email' },
+                    'isFavourite': { 'type': 'boolean' },
+                    'contactType':
+                      {
+                        'type': 'string',
+                        'enum': ['work', 'home', 'personal'],
+                      },
+                    'photo': { 'type': 'string', 'format': 'binary' },
+                  },
+              },
+          },
+      },
+  }
 responses:
   '200':
     description: Contact updated successfully
