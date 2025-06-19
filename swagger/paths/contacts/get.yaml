@@ -36,12 +36,6 @@ parameters:
     description: Sorting order
 
   # - in: query
-  #   name: search
-  #   schema:
-  #     type: string
-  #   description: Search keyword for name, email, or phone number
-
-  # - in: query
   #   name: contactType
   #   schema:
   #     type: string
@@ -73,38 +67,7 @@ responses:
               type: string
               example: Successfully found contacts!
             data:
-              type: object
-              required:
-                - data
-                - page
-                - perPage
-                - totalItems
-                - totalPages
-                - hasNextPage
-                - hasPreviousPage
-              properties:
-                data:
-                  type: array
-                  items:
-                    $ref: '../../components/schemas/contact.yaml'
-                page:
-                  type: number
-                  example: 2
-                perPage:
-                  type: number
-                  example: 6
-                totalItems:
-                  type: number
-                  example: 6
-                totalPages:
-                  type: number
-                  example: 10
-                hasNextPage:
-                  type: boolean
-                  example: true
-                hasPreviousPage:
-                  type: boolean
-                  example: false
+              $ref: '../../components/schemas/contact.yaml'
 
   '401':
     $ref: ../../components/responses/401.yaml

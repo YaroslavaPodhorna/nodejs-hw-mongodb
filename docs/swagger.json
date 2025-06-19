@@ -11,10 +11,10 @@
   },
   "servers": [
     {
-      "url": "http://127.0.0.1:3000"
+      "url": "https://nodejs-hw-mongodb-2mzx.onrender.com"
     },
     {
-      "url": "https://nodejs-hw-mongodb-2mzx.onrender.com"
+      "url": "http://127.0.0.1:3000"
     }
   ],
   "tags": [
@@ -26,7 +26,9 @@
   "paths": {
     "/contacts": {
       "get": {
-        "tags": ["Contacts"],
+        "tags": [
+          "Contacts"
+        ],
         "summary": "Get all contacts",
         "operationId": "getAllContacts",
         "description": "Get all contacts belonging to the user.",
@@ -68,29 +70,13 @@
             "name": "sortOrder",
             "schema": {
               "type": "string",
-              "enum": ["asc", "desc"],
+              "enum": [
+                "asc",
+                "desc"
+              ],
               "default": "asc"
             },
             "description": "Sorting order"
-          },
-          {
-            "in": "query",
-            "name": "searchBy",
-            "schema": {
-              "type": "string",
-              "enum": ["name", "email", "phoneNumber"],
-              "default": "name"
-            },
-            "description": "Field to search by"
-          },
-          {
-            "in": "query",
-            "name": "contactType",
-            "schema": {
-              "type": "string",
-              "enum": ["work", "home", "personal"]
-            },
-            "description": "Filter by contact type"
           },
           {
             "in": "query",
@@ -108,7 +94,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -119,48 +109,7 @@
                       "example": "Successfully found contacts!"
                     },
                     "data": {
-                      "type": "object",
-                      "required": [
-                        "data",
-                        "page",
-                        "perPage",
-                        "totalItems",
-                        "totalPages",
-                        "hasNextPage",
-                        "hasPreviousPage"
-                      ],
-                      "properties": {
-                        "data": {
-                          "type": "array",
-                          "items": {
-                            "$ref": "#/components/schemas/contact"
-                          }
-                        },
-                        "page": {
-                          "type": "number",
-                          "example": 2
-                        },
-                        "perPage": {
-                          "type": "number",
-                          "example": 6
-                        },
-                        "totalItems": {
-                          "type": "number",
-                          "example": 6
-                        },
-                        "totalPages": {
-                          "type": "number",
-                          "example": 10
-                        },
-                        "hasNextPage": {
-                          "type": "boolean",
-                          "example": true
-                        },
-                        "hasPreviousPage": {
-                          "type": "boolean",
-                          "example": false
-                        }
-                      }
+                      "$ref": "#/components/schemas/contact"
                     }
                   }
                 }
@@ -176,7 +125,9 @@
         }
       },
       "post": {
-        "tags": ["Contacts"],
+        "tags": [
+          "Contacts"
+        ],
         "summary": "Create a new contact",
         "operationId": "createContact",
         "description": "Add a new contact to the database.",
@@ -190,7 +141,11 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": ["name", "phoneNumber", "contactType"],
+                "required": [
+                  "name",
+                  "phoneNumber",
+                  "contactType"
+                ],
                 "properties": {
                   "name": {
                     "type": "string",
@@ -210,7 +165,11 @@
                   },
                   "contactType": {
                     "type": "string",
-                    "enum": ["work", "home", "personal"],
+                    "enum": [
+                      "work",
+                      "home",
+                      "personal"
+                    ],
                     "example": "personal"
                   },
                   "photo": {
@@ -229,7 +188,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -259,7 +222,9 @@
     },
     "/contacts/{id}": {
       "get": {
-        "tags": ["Contacts"],
+        "tags": [
+          "Contacts"
+        ],
         "summary": "Get contact by ID",
         "operationId": "getContact",
         "description": "Get a contact by its unique identifier.",
@@ -286,7 +251,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -313,7 +282,10 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message"],
+                  "required": [
+                    "status",
+                    "message"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -334,7 +306,9 @@
         }
       },
       "patch": {
-        "tags": ["Contacts"],
+        "tags": [
+          "Contacts"
+        ],
         "summary": "Update a contact by ID",
         "operationId": "updateContact",
         "description": "Update contact fields by ID.",
@@ -356,9 +330,36 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/contact"
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "isFavourite": {
+                    "type": "boolean"
+                  },
+                  "contactType": {
+                    "type": "string",
+                    "enum": [
+                      "work",
+                      "home",
+                      "personal"
+                    ]
+                  },
+                  "photo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
               }
             }
           }
@@ -370,7 +371,10 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "data"],
+                  "required": [
+                    "status",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -399,7 +403,9 @@
         }
       },
       "delete": {
-        "tags": ["Contacts"],
+        "tags": [
+          "Contacts"
+        ],
         "summary": "Delete a contact by ID",
         "operationId": "deleteContact",
         "description": "Delete a contact by its ID.",
@@ -425,6 +431,9 @@
           "401": {
             "$ref": "#/components/responses/401"
           },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
           "500": {
             "$ref": "#/components/responses/500"
           }
@@ -442,7 +451,12 @@
     "schemas": {
       "contact": {
         "type": "object",
-        "required": ["name", "phoneNumber", "contactType", "userId"],
+        "required": [
+          "name",
+          "phoneNumber",
+          "contactType",
+          "userId"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -465,7 +479,11 @@
           },
           "contactType": {
             "type": "string",
-            "enum": ["work", "home", "personal"],
+            "enum": [
+              "work",
+              "home",
+              "personal"
+            ],
             "example": "personal",
             "default": "personal"
           },
@@ -500,7 +518,11 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": ["status", "message", "data"],
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -512,11 +534,50 @@
                 },
                 "data": {
                   "type": "object",
-                  "required": ["message"],
+                  "required": [
+                    "message"
+                  ],
                   "properties": {
                     "message": {
                       "type": "string",
                       "example": "Invalid or missing authentication token."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Not found"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
                     }
                   }
                 }
@@ -531,7 +592,10 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": ["status", "message"],
+              "required": [
+                "status",
+                "message"
+              ],
               "properties": {
                 "status": {
                   "type": "integer",
